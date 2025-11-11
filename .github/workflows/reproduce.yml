@@ -9,13 +9,20 @@ on:
 
 jobs:
   use_tool_versions:
-    runs-on: ubuntu-latest
+    env:
+      GOARCH: arm64
+      GOOS: linux
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Setup Go from .tool-versions
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: .tool-versions
           cache-dependency-path: go.sum
