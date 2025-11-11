@@ -1,0 +1,26 @@
+name: Reproduce setup-go .tool-versions Parsing Issue
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  use_tool_versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Go from .tool-versions
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: .tool-versions
+          cache-dependency-path: go.sum
+
+      - name: Verify Go installation
+        run: |
+          go version
+          echo "golang installed successfully from .tool-versions file"
