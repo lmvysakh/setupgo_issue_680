@@ -1,0 +1,42 @@
+name: Setup Go with tool-versions
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  setup-go:
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          - ubuntu-latest
+          - windows-latest
+        version-file:
+          - '.tool-versions'
+          - 'single/.tool-versions'
+          - go.mod
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go from .tool-versions
+        uses: actions/setup-go@v6.0.0
+        with:
+          go-version-file: ${{ matrix.version-file }}
+
+      - name: Verify Go installation
+        run: |
+          go version
+          echo "Go installed successfully!"
