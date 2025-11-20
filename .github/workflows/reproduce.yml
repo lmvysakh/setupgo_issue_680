@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Go from .tool-versions
-        uses: actions/setup-go@main
+        uses: actions/setup-go@v6
         with:
           go-version-file: .tool-versions
           cache-dependency-path: go.sum
